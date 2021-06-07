@@ -1,6 +1,6 @@
 import { personajes } from "./personajes.js";
 
-const getPersonajes = () =>
+export const getPersonajes = () =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(personajes);
@@ -27,4 +27,3 @@ export const mataPersonajes = (familia) =>
       );
     }, 1000);
   });
-export default getPersonajes();

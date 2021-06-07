@@ -4,12 +4,13 @@ const cargarPersonajes = document.querySelector(".cargar-personajes");
 const matarPersonajes = document.querySelector(".matar-familia");
 const buscarFamilia = document.querySelector("input.familia");
 const personajesPadre = document.querySelector(".personajes");
-const personaje = document.querySelectorAll(".personaje");
+
 const personajes = document.querySelector(".personaje-dummy");
 buscarFamilia.addEventListener("input", (e) => {
   console.log(e.target.value);
 });
 const limpiarPersonajes = () => {
+  const personaje = document.querySelectorAll(".personaje");
   for (const elemento of personaje) {
     elemento.classList.add("personaje-dummy");
   }
@@ -46,6 +47,5 @@ cargarPersonajes.addEventListener("click", async () => {
 matarPersonajes.addEventListener("click", async () => {
   const response = getPersonajes;
   const datos = await response.then((dato) => dato);
-  limpiarPersonajes();
   matarFamilia(datos, buscarFamilia.value);
 });

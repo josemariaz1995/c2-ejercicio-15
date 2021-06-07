@@ -6,6 +6,14 @@ const buscarFamilia = document.querySelector(".matar-familia").value;
 const personajesPadre = document.querySelector(".personajes");
 const personaje = document.querySelectorAll(".personaje");
 const personajes = document.querySelector(".personaje-dummy");
+const matarFamilia = (personajes, familia) => {
+  const personajeDeFamilia = personajes.filter(
+    (personaje) => personaje.famila === familia
+  );
+  for (const personaje of personajeDeFamilia) {
+    personaje.vivo = false;
+  }
+};
 const limpiarPersonajes = () => {
   for (const elemento of personaje) {
     elemento.classList.add("personaje-dummy");
@@ -17,6 +25,7 @@ const cargaPersonaje = cargarPersonajes.addEventListener("click", async () => {
   const datos = await response.then((dato) => dato);
   console.log(datos);
   limpiarPersonajes();
+
   for (const { nombre, familia, vivo } of datos) {
     const moldePersonaje = personajes.cloneNode(true);
     moldePersonaje.classList.remove("personaje-dummy");
@@ -28,15 +37,12 @@ const cargaPersonaje = cargarPersonajes.addEventListener("click", async () => {
     estado.textContent = vivo ? "vivo" : "muerto";
     personajesPadre.append(moldePersonaje);
   }
-
-  /* const matarFamilia = (personajes, familia) => {
-    const personajeDeFamilia = personajes.filter(
-      (personaje) => personaje.famila === familia
-    );
-    for (const personaje of personajeDeFamilia) {
-      personaje.vivo = false;
-    }
-  };
-  matarFamilia("click", matarFamilia(datos, buscarFamilia));
-  console.log(datos); */
 });
+matarPersonajes.addEventListener(
+  "click",
+  matarFamilia(async () => {
+    const response = getPersonajes;
+    const datos = await response.then((dato) => dato);
+    return datos;
+  }, buscarFamilia)
+);

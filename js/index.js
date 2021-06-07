@@ -2,30 +2,22 @@ import getPersonajes from "./funciones.js";
 
 const cargarPersonajes = document.querySelector(".cargar-personajes");
 const matarPersonajes = document.querySelector(".matar-familia");
-const buscarFamilia = document.querySelector(".matar-familia").value;
+const buscarFamilia = document.querySelector("input.familia");
 const personajesPadre = document.querySelector(".personajes");
 const personaje = document.querySelectorAll(".personaje");
 const personajes = document.querySelector(".personaje-dummy");
-const matarFamilia = (personajes, familia) => {
-  const personajeDeFamilia = personajes.filter(
-    (personaje) => personaje.famila === familia
-  );
-  for (const personaje of personajeDeFamilia) {
-    personaje.vivo = false;
-  }
-};
+buscarFamilia.addEventListener("input", (e) => {
+  console.log(e.target.value);
+});
 const limpiarPersonajes = () => {
   for (const elemento of personaje) {
     elemento.classList.add("personaje-dummy");
   }
 };
 limpiarPersonajes();
-const cargaPersonaje = cargarPersonajes.addEventListener("click", async () => {
-  const response = getPersonajes;
-  const datos = await response.then((dato) => dato);
-  console.log(datos);
-  limpiarPersonajes();
 
+const crearMoldes = (datos) => {
+  limpiarPersonajes();
   for (const { nombre, familia, vivo } of datos) {
     const moldePersonaje = personajes.cloneNode(true);
     moldePersonaje.classList.remove("personaje-dummy");
@@ -37,12 +29,23 @@ const cargaPersonaje = cargarPersonajes.addEventListener("click", async () => {
     estado.textContent = vivo ? "vivo" : "muerto";
     personajesPadre.append(moldePersonaje);
   }
+};
+const matarFamilia = (datos, buscarFamilia) => {
+  for (const personaje of datos) {
+    if (personaje.familia === buscarFamilia) {
+      personaje.vivo = false;
+    }
+  }
+  crearMoldes(datos);
+};
+cargarPersonajes.addEventListener("click", async () => {
+  const response = getPersonajes;
+  const datos = await response.then((dato) => dato);
+  crearMoldes(datos);
 });
-matarPersonajes.addEventListener(
-  "click",
-  matarFamilia(async () => {
-    const response = getPersonajes;
-    const datos = await response.then((dato) => dato);
-    return datos;
-  }, buscarFamilia)
-);
+matarPersonajes.addEventListener("click", async () => {
+  const response = getPersonajes;
+  const datos = await response.then((dato) => dato);
+  limpiarPersonajes();
+  matarFamilia(datos, buscarFamilia.value);
+});

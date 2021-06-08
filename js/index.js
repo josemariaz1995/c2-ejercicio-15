@@ -10,9 +10,8 @@ buscarFamilia.addEventListener("input", (e) => {
   console.log(e.target.value);
 });
 const cargarDatos = async () => {
-  const response = await getPersonajes;
-  const datos = await response().then((dato) => dato);
-  return datos;
+  const response = await getPersonajes();
+  return response;
 };
 const cargarMatarPersonaje = async (familia) => {
   const response = await mataPersonajes(familia);
@@ -22,9 +21,11 @@ const cargarMatarPersonaje = async (familia) => {
 
 console.log(cargarDatos());
 const limpiarPersonajes = () => {
-  const personaje = document.querySelectorAll(".personaje");
+  const personaje = document.querySelectorAll(
+    ".personaje:not(.personaje-dummy)"
+  );
   for (const elemento of personaje) {
-    elemento.classList.add("personaje-dummy");
+    elemento.remove();
   }
 };
 limpiarPersonajes();
